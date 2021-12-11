@@ -145,7 +145,11 @@ int main(int argc, char *argv[]) {
   }
 
   // docrootに移動
-  chdir(docroot.c_str());
+  if(chdir(docroot.c_str()))
+  {
+    std::cerr << "docroot is not found. check server.conf" << std::endl;
+    exit(1);
+  };
 
   // オプションchroot・user・groupが存在すればchrootの環境設定
   setup_environment(docroot, user, group);
