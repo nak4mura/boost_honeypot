@@ -1,4 +1,5 @@
 #include "all.hpp"
+#include <exception>
 
 static void signal_exit(int sig) {
   system_log(severity_level(INFO), "exit by signal %d", sig);
@@ -81,6 +82,7 @@ int main(int argc, char *argv[]) {
   boost::program_options::options_description description("options");
   description.add_options()
     ("help", "ヘルプを表示")
+    ("conf,c", boost::program_options::value<std::string>(), "server.confのパス指定")
     ("daemon,m", "自力でデーモン化")
     ("debug,d", "デバッグモードで起動")
   ;
@@ -105,8 +107,27 @@ int main(int argc, char *argv[]) {
     exit(0);
   }
 
+  std::string conf_file_path = "";
+  // オプションconf必須チェック
+  if (!vm.count("conf"))
+  {
+    std::cout << "option ""conf"" is required." << std::endl;
+    exit(0);
+  }
+  else
+  {
+    try 
+    {
+      conf_file_path = vm["conf"].as<std::string>();
+    }
+    catch (const boost::bad_any_cast& e)
+    {
+      std::cout << e.what() << std::endl;
+    }
+  }
+
   // server.conf 読込み
-  read_server_conf* server_conf = read_server_conf::getInstance(boost::filesystem::system_complete(argv[0]).parent_path());
+  read_server_conf* server_conf = read_server_conf::getInstance(conf_file_path);
   int port;
   std::string docroot;
   std::string user;

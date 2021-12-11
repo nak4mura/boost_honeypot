@@ -3,7 +3,6 @@
 class read_response_conf
 {
 private:
-    const std::string FILE_NAME = "/response_code.conf";
     static read_response_conf* _read_response_conf;
     std::map<std::string, std::string> _response_code_list;
     read_response_conf();

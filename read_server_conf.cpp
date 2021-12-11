@@ -1,10 +1,10 @@
 #include "all.hpp"
 
 read_server_conf* read_server_conf::_read_server_conf = nullptr;
-read_server_conf::read_server_conf(boost::filesystem::path exec_path)
+read_server_conf::read_server_conf(boost::filesystem::path file_path)
 {
     boost::property_tree::ptree pt;
-    boost::property_tree::read_ini( exec_path.string() + FILE_NAME, pt);
+    boost::property_tree::read_ini( file_path.string(), pt);
     for (auto& section : pt)
     {
         for (auto& key : section.second)

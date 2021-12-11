@@ -4,7 +4,17 @@ read_response_conf* read_response_conf::_read_response_conf = nullptr;
 read_response_conf::read_response_conf()
 {
     boost::property_tree::ptree pt;
-    boost::property_tree::read_ini(FILE_NAME, pt);
+    read_server_conf* server_conf = read_server_conf::getInstance();
+    std::string responsecodeconffile;
+    try {
+        responsecodeconffile = server_conf->get_server_list().at("responsecodeconffile");
+    }
+    catch(std::out_of_range&)
+    {
+        system_log(severity_level(ERROR), "failed to read server.conf <%s>", "responsecodeconffile");
+        exit(1);
+    }
+    boost::property_tree::read_ini(responsecodeconffile, pt);
     for (auto& section : pt)
     {
         for (auto& key : section.second)

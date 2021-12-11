@@ -15,14 +15,19 @@ C++、Boostライブラリを用いた非同期I/OのWebハニーポット
 ```bash
 # boost_honeypotのプロジェクトフォルダへ移動
 cd <クローンしたboost_honeypotのパス> # ex) /home/user01/boost_honeypot
+
+# log出力先フォルダ作成
+mkdir ./log
+
 # chroot下で利用するタイムゾーンの設定
+mkdir ./etc
 cp -p /etc/localtime ./etc/.
 
 # server.confの編集
-vim ./server.conf
+vim ./etc/server.conf
 ＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊
 [server]
-port = <任意のポート>
+port = <リクエストの受付ポート>
 docroot = <クローンしたboost_honeypotのパス>
 user = <chrootで使用するユーザ>
 group = <chrootで使用するグループ>
@@ -30,7 +35,8 @@ syslogfile = <システムログ出力先 (chroot環境でのパス)>
 accesslogfile = <アクセスログ出力先 (chroot環境でのパス)>
 accesslogsuffix = <アクセスログの接尾辞 (boost::logの仕様に基づく)>
 accesslogrotationsize = <アクセスログのローテーションサイズ (Bytes)>
-mrrulesfile = <HTTPマッチングに使用するルールファイル (詳細は./art/mrr_help.txt参照のこと)>
+mrrulesfile = <HTTPマッチングに使用するルールファイル (chroot環境でのパス) (詳細は./art/mrr_help.txt参照のこと)>
+responsecodeconffile = <HTTPレスポンスコードとメッセージの対応表 (chroot環境でのパス)>
 ＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊
 
 # ハニーポット用ユーザ作成 (chrootで使用するための非特権ユーザ)
@@ -43,12 +49,17 @@ sudo chown -R boosthoney:boosthoney art
 sudo chown -R boosthoney:boosthoney log
 
 # ビルド実行
-make
+mkdir build
+cd build
+cmake ..
+cmake --build .
 
 # ヘルプ
 ./boosthoney --help
+
 # 起動
-sudo ./boosthoney
+sudo ./boosthoney --conf=<クローンしたboost_honeypotのパス>/etc/server.conf # ex) /home/user01/boost_honeypot/etc/server.conf
+
 ```
 ### systemdでの起動（任意）
 ```bash
@@ -63,7 +74,7 @@ sudo vim /etc/systemd/system/boosthoney.service
 Description = boosthoney daemon
 
 [Service]
-ExecStart = <クローンしたboost_honeypotのパス>/boosthoney
+ExecStart = <boosthoney実行ファイルのフルパス>/ --conf=<クローンしたboost_honeypotのパス>/etc/server.conf
 Restart = always
 Type = simple
 RemainAfterExit=yes

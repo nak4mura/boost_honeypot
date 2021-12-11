@@ -34,10 +34,10 @@
 #include <boost/format.hpp>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
-#include "logger.hpp"
-#include "http_request.hpp"
-#include "http_response.hpp"
-#include "tcp_connection.hpp"
-#include "tcp_server.hpp"
-#include "read_response_conf.hpp"
-#include "read_server_conf.hpp"
+#include "include/logger.hpp"
+#include "include/http_request.hpp"
+#include "include/http_response.hpp"
+#include "include/tcp_connection.hpp"
+#include "include/tcp_server.hpp"
+#include "include/read_response_conf.hpp"
+#include "include/read_server_conf.hpp"
