@@ -20,7 +20,6 @@ cd <クローンしたboost_honeypotのパス> # ex) /home/user01/boost_honeypot
 mkdir ./log
 
 # chroot下で利用するタイムゾーンの設定
-mkdir ./etc
 cp -p /etc/localtime ./etc/.
 
 # server.confの編集
@@ -74,7 +73,7 @@ sudo vim /etc/systemd/system/boosthoney.service
 Description = boosthoney daemon
 
 [Service]
-ExecStart = <boosthoney実行ファイルのフルパス>/ --conf=<クローンしたboost_honeypotのパス>/etc/server.conf
+ExecStart = <boosthoney実行ファイルのフルパス> --conf=<server.confのフルパス>
 Restart = always
 Type = simple
 RemainAfterExit=yes
