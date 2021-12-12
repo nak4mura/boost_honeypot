@@ -48,7 +48,7 @@ void tcp_connection::on_receive(const boost::system::error_code& error)
     }
     else {
         const char* data = boost::asio::buffer_cast<const char*>(receive_buff_.data());
-        access_log(severity_level(INFO), "[%s] %s", socket_.remote_endpoint().address().to_string().c_str(), data);
+        access_log(severity_level(INFO), "[%s]\t%s", socket_.remote_endpoint().address().to_string().c_str(), data);
         http_request *req;
         if (std::string(data).find("HTTP") == std::string::npos)
         {

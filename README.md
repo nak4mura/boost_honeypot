@@ -7,11 +7,15 @@ C++、Boostライブラリを用いた非同期I/OのWebハニーポット
 * HTTPリクエストに対しては、事前にXMLに定めたルールでマッチ＆レスポンスを行う。(詳細は./art/mrr_help.txt参照のこと)
 * chrootで影響範囲を縮小
 
-# 必要外部ライブラリ
-* boost 1.76.0
+# 動作確認環境
+* Ubuntu 20.04.3 LTS & BOOST_LIB_VERSION "1_71" & cmake version 3.16.3
+* Arch linux & BOOST_LIB_VERSION "1_76" & cmake version 3.22.1
  
 # インストール方法
-### 構築方法
+### 動作条件環境構築
+* [Ubuntu](./doc/env_setting_ubuntu.md)
+
+### BoostHoney構築方法
 ```bash
 # boost_honeypotのプロジェクトフォルダへ移動
 cd <クローンしたboost_honeypotのパス> # ex) /home/user01/boost_honeypot
@@ -41,7 +45,7 @@ responsecodeconffile = <HTTPレスポンスコードとメッセージの対応�
 
 # ハニーポット用ユーザ作成 (chrootで使用するための非特権ユーザ)
 sudo groupadd boosthoney
-sudo useradd -m -g boosthoney boosthoney
+sudo useradd -g boosthoney boosthoney
 
 # ファイル読み書き用にファイル所有者変更
 sudo chown -R boosthoney:boosthoney etc
@@ -94,9 +98,9 @@ systemctl enable boosthoney
 ```
 
 # デモ
-![DEMO](./demo.gif)
+![DEMO](./doc/demo.gif)
 
 # License
 This software is released under the BSD License, see LICENSE.
 
-[LICENSE](./LICENSE).
+[LICENSE](./LICENSE)

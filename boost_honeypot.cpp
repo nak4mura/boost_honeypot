@@ -1,5 +1,4 @@
 #include "all.hpp"
-#include <exception>
 
 static void signal_exit(int sig) {
   system_log(severity_level(INFO), "exit by signal %d", sig);

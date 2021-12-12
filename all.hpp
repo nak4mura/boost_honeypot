@@ -3,6 +3,7 @@
 #include <ctime>
 #include <string>
 #include <regex>
+#include <exception>
 #include <time.h>
 #include <stdarg.h>
 #include <signal.h>
